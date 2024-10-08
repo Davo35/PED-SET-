@@ -1,21 +1,20 @@
 #include <iostream>
 #include <set>
 
-struct Estudiante
-{
+struct Estudiante {
   std::string Nombre;
   std::string Identificacion;
 };
 
 void menu(std::set<Estudiante>& Inscripcion_Alumnos);
 void eliminarEstudiante(std::set<Estudiante> &Inscripcion_Alumnos);
+void buscar(const std::set<Estudiante>& Inscripcion_Alumnos);
 
-int main()
-{
-
+int main(){
   std::set<Estudiante> Inscripcion_Alumnos;
   // aqui van las funciones a llamar
   menu(Inscripcion_Alumnos);
+
 
   return 0;
 }
@@ -39,11 +38,11 @@ void menu(std::set<Estudiante> &Inscripcion_Alumnos)
     case 2:
       /* code */
       break;
-    case 3:
-      /* code */
-      break;
+      case 3:
+        buscar(Inscripcion_Alumnos);
+        break;
     case 4:
-    eliminarEstudiante(Inscripcion_Alumnos);
+        eliminarEstudiante(Inscripcion_Alumnos);
       break;
 
     default:
@@ -52,6 +51,27 @@ void menu(std::set<Estudiante> &Inscripcion_Alumnos)
 
   }while (Opcion != 4);
 
+
+    std::cin.ignore(); // Limpiar el buffer
+    std::cin.get(); // Esperar entrada del usuario
+}
+
+void buscar(const std::set<Estudiante>& Inscripcion_Alumnos) {
+    std::string identificacion;
+    std::cout << "Ingrese el id del estudiante a buscar: ";
+    std::cin >> identificacion;
+
+    Estudiante estudiante_buscado;
+    estudiante_buscado.Identificacion = identificacion;
+
+    std::set<Estudiante>::const_iterator iterador = Inscripcion_Alumnos.find(estudiante_buscado);
+    if (iterador != Inscripcion_Alumnos.end()) {
+        std::cout << "Estudiante encontrado:\n";
+        std::cout << "Nombre: " << iterador->Nombre << "\nIdentificacion: " << iterador->Identificacion << std::endl;
+    } else {
+        std::cout << "Estudiante no encontrado.\n";
+    }
+}
   std::cout << "\nSaliendo....\n";
   system("pause");
 }
