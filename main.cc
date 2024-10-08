@@ -7,6 +7,7 @@ struct Estudiante {
 };
 
 void menu();
+void eliminarEstudiante(std::set<Estudiante>& Inscripcion_Alumnos);
 
 int main() { 
 
@@ -42,4 +43,8 @@ void menu() {
 
   std::cout << "\nSaliendo....\n";
   system("pause");
+}
+
+void eliminarEstudiante(std::set<Estudiante>& Inscripcion_Alumnos) {
+
 }
