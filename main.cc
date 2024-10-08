@@ -4,9 +4,15 @@
 struct Estudiante {
   std::string Nombre;
   std::string Identificacion;
-};
+  std::string Carrera;
+    // Sobrecargar el operador < para poder almacenar en un set
+  bool operator<(const Estudiante &temp) const {
+    return Nombre < temp.Nombre;  // Ordenar por nombre
+  }
+  };
 
 void menu(std::set<Estudiante>& Inscripcion_Alumnos);
+void IngresarDatos(std::set<Estudiante> &alumno, const std::string &nombre, const std::string &identificacion, const std::string &carrera);
 void eliminarEstudiante(std::set<Estudiante> &Inscripcion_Alumnos);
 void buscar(const std::set<Estudiante>& Inscripcion_Alumnos);
 
@@ -14,32 +20,42 @@ int main(){
   std::set<Estudiante> Inscripcion_Alumnos;
   // aqui van las funciones a llamar
   menu(Inscripcion_Alumnos);
-
-
   return 0;
 }
 
 void menu(std::set<Estudiante> &Inscripcion_Alumnos)
 {
   int Opcion;
-
-  std::cout << "\n------ Inscripcion Universitaria ------- \n\n";
-  std::cout
-      << "1. Registrar Informacion || 2.  Modificar Informacion || "
-         "3. Mostrar Informacion || 4. Eliminar informacion || 5. Salir\n\n";
-  std::cout << "Digitar una opcion: ";
-  std::cin >> Opcion;
-
-  do{
+  std::string nombre, identificacion, carrera;
+  do {
+    std::cout << "\n------ Inscripcion Universitaria ------- \n\n";
+    std::cout
+        << "1. Registrar Informacion || 2. Modificar Informacion || "
+        << "3. Mostrar Informacion || 4. Eliminar informacion || 5. Salir\n\n";
+    std::cout << "Digitar una opcion: ";
+    std::cin >> Opcion;
     switch (Opcion){
-    case 1:
-      /* code */
+      case 1:
+        // Ingresar
+        std::cin.ignore();  // Para evitar problemas con getline
+        std::cout << "\nIngresar Nombre: ";
+        std::getline(std::cin, nombre);
+
+        std::cout << "\nIngresar NIE o DUI: ";
+        std::cin >> identificacion;
+
+        std::cout << "\nCarrera a cursar: ";
+        std::cin.ignore();
+        std::getline(std::cin, carrera);
+
+        IngresarDatos(alumno, nombre, identificacion, carrera);
       break;
     case 2:
       /* code */
       break;
       case 3:
         buscar(Inscripcion_Alumnos);
+
         break;
     case 4:
         eliminarEstudiante(Inscripcion_Alumnos);
@@ -48,9 +64,7 @@ void menu(std::set<Estudiante> &Inscripcion_Alumnos)
     default:
       break;
     }
-
-  }while (Opcion != 4);
-
+  } while (Opcion != 5);
 
     std::cin.ignore(); // Limpiar el buffer
     std::cin.get(); // Esperar entrada del usuario
@@ -73,6 +87,24 @@ void buscar(const std::set<Estudiante>& Inscripcion_Alumnos) {
     }
 }
   std::cout << "\nSaliendo....\n";
+
+}
+
+void IngresarDatos(std::set<Estudiante> &alumno, const std::string &nombre, const std::string &identificacion, const std::string &carrera) {
+  // Parametros como referencia ya que va cambiar constantemente
+  Estudiante AlumnoIngresar = {nombre, identificacion, carrera};
+
+  // Agregando alumno y comprobando que ha sido agregado
+  if (alumno.insert(AlumnoIngresar).second) { //Second
+    std::cout << "\nAgregaste la informacion correctamente\n\n";
+    std::cout << "Nombre: " << nombre << "  Dui/Nit: " << identificacion
+              << "   Carrera: " << carrera << std::endl;
+    system("pause");
+  } else {
+    std::cout << "\nYa existe una persona con esos datos\n";
+  }
+}
+
   system("pause");
 }
 
@@ -90,3 +122,4 @@ void eliminarEstudiante(std::set<Estudiante> &Inscripcion_Alumnos){
     std::cout << "No se encontro ningun estudiante con ese carnet." << std::endl;
   }
 }
+
