@@ -43,3 +43,17 @@ void menu() {
   std::cout << "\nSaliendo....\n";
   system("pause");
 }
+
+// Función para mostrar todos los estudiantes
+void mostrar(const std::set<Estudiante>& Inscripcion_Alumnos) {
+  if (Inscripcion_Alumnos.empty()) {
+    std::cout << "No hay estudiantes registrados.\n";
+  } else {
+    std::cout << "Lista de estudiantes registrados:\n";
+    for (const auto& estudiante : Inscripcion_Alumnos) {
+      std::cout << "Nombre: " << estudiante.Nombre << "\n";
+      std::cout << "Identificacion: " << estudiante.Identificacion << "\n";
+      std::cout << "----------------------------\n";
+    }
+  }
+}
